@@ -6,20 +6,19 @@
 /*   By: baptisteboisset <marvin@42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 14:58:26 by baptisteb         #+#    #+#             */
-/*   Updated: 2019/10/23 14:59:31 by baptisteb        ###   ########.fr       */
+/*   Updated: 2019/10/23 15:10:21 by bboisset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef get_next_line_h
-#define get_next_line_h
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdlib.h>
-#define BUFFER_SIZE 100
+# include <stdio.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <unistd.h>
+# include <stdlib.h>
 
 typedef struct	s_read_stock
 {
@@ -32,9 +31,6 @@ char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strndup(const char *s1, size_t max);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
 
-
 char			*read_line(int const fd, char *str, int *status);
 int				get_next_line(int const fd, char **line);
-
 #endif
-

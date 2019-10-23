@@ -6,7 +6,7 @@
 /*   By: baptisteboisset <marvin@42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 14:59:54 by baptisteb         #+#    #+#             */
-/*   Updated: 2019/10/23 15:00:22 by baptisteb        ###   ########.fr       */
+/*   Updated: 2019/10/23 15:11:42 by bboisset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		ft_strlen(const char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!s)
@@ -26,7 +26,7 @@ int		ft_strlen(const char *s)
 
 char	*ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	if (dstsize == 0)
@@ -42,8 +42,8 @@ char	*ft_strlcpy(char *dst, const char *src, size_t dstsize)
 
 char	*ft_strndup(const char *s1, size_t max)
 {
-	size_t    s1_len;
-	char    *dest;
+	size_t	s1_len;
+	char	*dest;
 
 	s1_len = ft_strlen(s1);
 	if (!(dest = (char *)malloc(sizeof(char) * s1_len + 1)))
@@ -54,9 +54,9 @@ char	*ft_strndup(const char *s1, size_t max)
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char    *new_str;
-	int        i;
-	int        j;
+	char	*new_str;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
@@ -76,11 +76,11 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char        *str2;
-	size_t        i;
-	size_t        j;
-	size_t        max;
-	size_t        s_len;
+	char	*str2;
+	size_t	i;
+	size_t	j;
+	size_t	max;
+	size_t	s_len;
 
 	s_len = (size_t)ft_strlen(s);
 	max = (len > s_len + 1) ? s_len : len;
@@ -96,4 +96,3 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	return (str2);
 }
-
