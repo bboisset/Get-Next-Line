@@ -6,7 +6,7 @@
 /*   By: baptisteboisset <marvin@42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 14:59:54 by baptisteb         #+#    #+#             */
-/*   Updated: 2019/10/23 15:11:42 by bboisset         ###   ########.fr       */
+/*   Updated: 2019/10/23 15:20:21 by bboisset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	s_len = (size_t)ft_strlen(s);
 	max = (len > s_len + 1) ? s_len : len;
 	max = (start > s_len) ? 0 : max;
-	str2 = calloc(max + 1, sizeof(char));
+	str2 = malloc(max + 1, sizeof(char));
 	if (!str2)
 		return (0);
 	i = start;
@@ -94,5 +94,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	{
 		str2[j++] = s[i++];
 	}
+	str2[j] = '\0';
 	return (str2);
 }
