@@ -6,7 +6,7 @@
 /*   By: baptisteboisset <marvin@42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 19:33:20 by baptisteb         #+#    #+#             */
-/*   Updated: 2019/10/23 15:17:10 by bboisset         ###   ########.fr       */
+/*   Updated: 2019/10/25 13:43:01 by bboisset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int		is_line_end(char *temp, size_t index)
 {
-	int	i;
-	int	j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	j = 0;
@@ -82,9 +82,14 @@ int		get_next_line(int const fd, char **line)
 	int		status;
 	char	*str;
 
+	str = NULL;
+	if (fd < 0 || !line)
+		return (-1);
 	i = 0;
 	status = 0;
-	*line = read_line(fd, str, &status);
+	if (!(*line = read_line(fd, str, &status)))
+		return (-1);
+	printf("\n status : %i", status);
 	if (status == 0)
 		return (0);
 	return (1);
