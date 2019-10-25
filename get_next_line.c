@@ -6,7 +6,7 @@
 /*   By: baptisteboisset <marvin@42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 19:33:20 by baptisteb         #+#    #+#             */
-/*   Updated: 2019/10/25 13:43:01 by bboisset         ###   ########.fr       */
+/*   Updated: 2019/10/25 16:40:37 by bboisset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,28 +40,31 @@ char	*read_temp(char *temp, size_t index)
 	i = 0;
 	j = 0;
 	str_len = 0;
-	while (temp[i])
-	{
-		str_len++;
-		if (temp[i++] == '\n' || (temp[i] == '\0' && temp[i - 1] != '\n'))
+	if (temp)
+		while (temp[i])
 		{
-			if (temp[i] == '\0' && temp[i - 1] != '\n')
-				j++;
-			if (index-- == 0)
-				return (ft_substr(temp, i - str_len, str_len - 1 + j));
-			str_len = 0;
+			str_len++;
+			if (temp[i++] == '\n' || (temp[i] == '\0' && temp[i - 1] != '\n'))
+			{
+				if (temp[i] == '\0' && temp[i - 1] != '\n')
+					j++;
+				if (index-- == 0)
+					return (ft_substr(temp, i - str_len, str_len - 1 + j));
+				str_len = 0;
+			}
 		}
-	}
 	return ("");
 }
 
 char	*read_line(int const fd, char *str, int *status)
 {
-	char					buffer[BUFFER_SIZE + 1];
+	char					*buffer;
 	size_t					res;
 	static	t_read_stock	read_line = {.temp = 0, .index = 0};
 
 	res = 0;
+	if (!(buffer = malloc((BUFFER_SIZE + 1) * sizeof(char))))
+		return (NULL);
 	while (is_line_end(read_line.temp, read_line.index) == 0 &&
 			(res = read(fd, buffer, BUFFER_SIZE)) > 0)
 	{
@@ -73,6 +76,7 @@ char	*read_line(int const fd, char *str, int *status)
 	if (res <= 0 && is_line_end(read_line.temp, read_line.index) == 0)
 		*status = 0;
 	read_line.index++;
+	free(buffer);
 	return (str);
 }
 
@@ -83,13 +87,12 @@ int		get_next_line(int const fd, char **line)
 	char	*str;
 
 	str = NULL;
-	if (fd < 0 || !line)
+	if (fd < 0 || !line || BUFFER_SIZE <= 0)
 		return (-1);
 	i = 0;
-	status = 0;
+	status = 1;
 	if (!(*line = read_line(fd, str, &status)))
 		return (-1);
-	printf("\n status : %i", status);
 	if (status == 0)
 		return (0);
 	return (1);
