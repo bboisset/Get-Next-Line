@@ -6,11 +6,17 @@
 /*   By: baptisteboisset <marvin@42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 19:33:20 by baptisteb         #+#    #+#             */
-/*   Updated: 2019/10/30 15:00:36 by bboisset         ###   ########.fr       */
+/*   Updated: 2019/10/31 17:20:16 by bboisset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char *free_on_fail(char *buffer)
+{
+	free(buffer);
+	return (NULL);
+}
 
 int		is_line_end(char *temp, size_t index)
 {
@@ -44,7 +50,7 @@ char	*read_temp(char *temp, size_t index)
 		while (temp[i])
 		{
 			str_len++;
-			if (temp[i++] == '\n' || (temp[i] == '\0' && temp[i - 1] != '\n'))
+			if (temp[i++] == '\n' || temp[i] == '\0')
 			{
 				if (temp[i] == '\0' && temp[i - 1] != '\n')
 					j++;
@@ -69,7 +75,7 @@ char	*read_line(int const fd, char *str, int *status)
 	{
 		buffer[res] = '\0';
 		if (!(read_line.temp = ft_strjoin(read_line.temp, buffer)))
-			return (NULL);
+			return (free_on_fail(buffer));
 	}
 	free(buffer);
 	str = read_temp(read_line.temp, read_line.index);
