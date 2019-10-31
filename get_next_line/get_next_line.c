@@ -6,7 +6,7 @@
 /*   By: baptisteboisset <marvin@42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 19:33:20 by baptisteb         #+#    #+#             */
-/*   Updated: 2019/10/29 17:10:23 by bboisset         ###   ########.fr       */
+/*   Updated: 2019/10/30 15:00:36 by bboisset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ char	*read_temp(char *temp, size_t index)
 	size_t	i;
 	size_t	j;
 	size_t	str_len;
-	char	dst;
 
 	i = 0;
 	j = 0;
