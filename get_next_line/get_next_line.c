@@ -3,108 +3,90 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baptisteboisset <marvin@42.fr>             +#+  +:+       +#+        */
+/*   By: bboisset <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/18 19:33:20 by baptisteb         #+#    #+#             */
-/*   Updated: 2019/10/31 17:20:16 by bboisset         ###   ########.fr       */
+/*   Created: 2019/10/31 17:51:44 by bboisset          #+#    #+#             */
+/*   Updated: 2019/10/31 19:38:08 by bboisset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char *free_on_fail(char *buffer)
+int	end_of_line(char *temp)
 {
-	free(buffer);
-	return (NULL);
+	int i;
+
+    i = 0;
+    while (temp[i] != '\0')
+    {
+        if (temp[i++] == '\n')
+            return (i);
+    }
+	return (0);
 }
 
-int		is_line_end(char *temp, size_t index)
+int	store_rest(char *temp, char *rest)
 {
-	size_t	i;
-	size_t	j;
+	int i;
+	int j;
+	int temp_len;
 
-	i = 0;
 	j = 0;
-	if (temp)
-		while (temp[i])
+	i = 0;
+	temp_len = ft_strlen(temp);
+	while (temp[i] != '\0')
+		if (temp[i++] == '\n')
 		{
-			if (temp[i++] == '\n')
-				j++;
+			j++;
+			if (j > 0)
+			{
+				if (!(rest = malloc((temp_len - i) 
+								* sizeof(char))))
+					return (-1);
+				rest = ft_substr(temp, i, temp_len);
+				return (0);
+			}
 		}
-	if (j == index)
+	free(temp);
+	return (0);
+}
+
+int	read_line(int const fd, char **line, char *rest)
+{
+	char	    *buffer;
+	char	    *temp;
+	size_t		res;
+
+    temp = ft_strdup(rest);
+	if (!(buffer = malloc((BUFFER_SIZE + 1) * sizeof(char))))
+		return (-1);
+	while (end_of_line(temp) == 0 && ((res = read(fd, buffer, BUFFER_SIZE)) > 0))
+	{
+		buffer[res] = '\0';
+		if (!(temp = ft_strjoin(temp, buffer)))
+			return (-1);
+	}
+	free(buffer);
+	*line = ft_substr(temp, 0, end_of_line(temp) - 1);
+	store_rest(temp, rest);
+	if (res <= 0 && end_of_line(rest) == 0)
 		return (0);
 	else
 		return (1);
 }
 
-char	*read_temp(char *temp, size_t index)
+int	get_next_line(int const fd, char **line)
 {
-	size_t	i;
-	size_t	j;
-	size_t	str_len;
+	static char	*rest = NULL;
+	int			res;
 
-	i = 0;
-	j = 0;
-	str_len = 0;
-	if (temp)
-		while (temp[i])
-		{
-			str_len++;
-			if (temp[i++] == '\n' || temp[i] == '\0')
-			{
-				if (temp[i] == '\0' && temp[i - 1] != '\n')
-					j++;
-				if (index-- == 0)
-					return (ft_substr(temp, i - str_len, str_len - 1 + j));
-				str_len = 0;
-			}
-		}
-	return (ft_substr("", 0, 1));
-}
-
-char	*read_line(int const fd, char *str, int *status)
-{
-	char					*buffer;
-	size_t					res;
-	static	t_read_stock	read_line = {.temp = 0, .index = 0};
-
-	if (!(buffer = malloc((BUFFER_SIZE + 1) * sizeof(char))))
-		return (NULL);
-	while (is_line_end(read_line.temp, read_line.index) == 0 &&
-			(res = read(fd, buffer, BUFFER_SIZE)) > 0)
-	{
-		buffer[res] = '\0';
-		if (!(read_line.temp = ft_strjoin(read_line.temp, buffer)))
-			return (free_on_fail(buffer));
-	}
-	free(buffer);
-	str = read_temp(read_line.temp, read_line.index);
-	if (res <= 0 && is_line_end(read_line.temp, read_line.index) == 0)
-	{
-		*status = 0;
-		free(read_line.temp);
-		read_line.temp = NULL;
-		read_line.index = 0;
-	}
-	else
-		read_line.index++;
-	return (str);
-}
-
-int		get_next_line(int const fd, char **line)
-{
-	size_t	i;
-	int		status;
-	char	*str;
-
-	str = NULL;
 	if (fd < 0 || !line || BUFFER_SIZE <= 0)
 		return (-1);
-	i = 0;
-	status = 1;
-	if (!(*line = read_line(fd, str, &status)))
-		return (-1);
-	if (status == 0)
-		return (0);
-	return (1);
+	res = read_line(fd, line, rest);
+	if (res == 0)
+	{
+		free(read_line);
+		rest = NULL;
+	}
+	return (res);
 }
