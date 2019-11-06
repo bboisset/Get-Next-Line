@@ -6,14 +6,14 @@
 
 int main (void)
 {
-            char *line;
-            int fd = open("/tmp/test", O_RDONLY);
-            while (get_next_line(fd,&line) == 1)
-            {
-                printf("%s\n", line);
-                free(line);
-            }
-            printf("%s", line);
-            free(line);
-    return (0);
+	char *line;
+	int fd = open("/dev/random", O_RDONLY);
+	while (get_next_line(fd,&line) == 1)
+	{
+		printf("%s\n", line);
+		free(line);
+	}
+	printf("%s", line);
+	free(line);
+	return (0);
 }

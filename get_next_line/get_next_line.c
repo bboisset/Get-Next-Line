@@ -6,7 +6,7 @@
 /*   By: bboisset <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 17:51:44 by bboisset          #+#    #+#             */
-/*   Updated: 2019/10/31 19:38:08 by bboisset         ###   ########.fr       */
+/*   Updated: 2019/11/06 15:33:46 by bboisset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,16 @@ int	end_of_line(char *temp)
 	int i;
 
     i = 0;
-    while (temp[i] != '\0')
-    {
-        if (temp[i++] == '\n')
-            return (i);
-    }
+    if (temp)
+        while (temp[i] != '\0')
+        {
+            if (temp[i++] == '\n')
+                return (i);
+        }
 	return (0);
 }
 
-int	store_rest(char *temp, char *rest)
+char *store_rest(char *temp, char *rest)
 {
 	int i;
 	int j;
@@ -42,34 +43,36 @@ int	store_rest(char *temp, char *rest)
 			{
 				if (!(rest = malloc((temp_len - i) 
 								* sizeof(char))))
-					return (-1);
-				rest = ft_substr(temp, i, temp_len);
-				return (0);
+					return (NULL);
+				return (ft_substr(temp, i, temp_len));
 			}
 		}
 	free(temp);
 	return (0);
 }
 
-int	read_line(int const fd, char **line, char *rest)
+int	read_line(int const fd, char **line, char **rest)
 {
 	char	    *buffer;
 	char	    *temp;
-	size_t		res;
+	ssize_t		res;
 
-    temp = ft_strdup(rest);
+    temp = ft_strdup(*rest);
+    res = 1;
 	if (!(buffer = malloc((BUFFER_SIZE + 1) * sizeof(char))))
 		return (-1);
-	while (end_of_line(temp) == 0 && ((res = read(fd, buffer, BUFFER_SIZE)) > 0))
+	while (end_of_line(temp) == 0 && ((res = read(fd, buffer, BUFFER_SIZE)) != 0))
 	{
+		if (res < 0)
+			return (-1);
 		buffer[res] = '\0';
 		if (!(temp = ft_strjoin(temp, buffer)))
 			return (-1);
 	}
 	free(buffer);
 	*line = ft_substr(temp, 0, end_of_line(temp) - 1);
-	store_rest(temp, rest);
-	if (res <= 0 && end_of_line(rest) == 0)
+	*rest = store_rest(temp, *rest);
+	if (res <= 0 && end_of_line(*rest) == 0)
 		return (0);
 	else
 		return (1);
@@ -77,15 +80,15 @@ int	read_line(int const fd, char **line, char *rest)
 
 int	get_next_line(int const fd, char **line)
 {
-	static char	*rest = NULL;
+	static char	*rest;
 	int			res;
 
-	if (fd < 0 || !line || BUFFER_SIZE <= 0)
+	if (fd < 0 || !fd || !line || BUFFER_SIZE <= 0)
 		return (-1);
-	res = read_line(fd, line, rest);
+	res = read_line(fd, line, &rest);
 	if (res == 0)
 	{
-		free(read_line);
+		//free(read_line);
 		rest = NULL;
 	}
 	return (res);
