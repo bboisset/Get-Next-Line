@@ -17,7 +17,7 @@
 # include <unistd.h>
 
 int				end_of_line(char *temp);
-char            *store_rest(char *temp, char *rest);
+int             store_rest(char *temp, char **rest);
 int             read_line(int const fd, char **line, char **rest);
 int				get_next_line(int const fd, char **line);
 

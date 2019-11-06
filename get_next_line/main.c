@@ -7,13 +7,16 @@
 int main (void)
 {
 	char *line;
-	int fd = open("/dev/random", O_RDONLY);
-	while (get_next_line(fd,&line) == 1)
+    int res;
+	int fd = open("/Users/bboisset/Dev/temp/gnlkiller/tests/simple", O_RDONLY);
+	while (((res = get_next_line(fd,&line)) == 1))
 	{
-		printf("%s\n", line);
+		printf("%i. - |%s|\n", res, line);
 		free(line);
 	}
-	printf("%s", line);
+	printf("%i. - |%s|\n", res, line);
 	free(line);
+    /*while (1 == 1)
+    {}*/
 	return (0);
 }
