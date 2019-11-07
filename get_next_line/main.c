@@ -8,7 +8,7 @@ int main (void)
 {
 	char *line;
     int res;
-	int fd = open("/Users/bboisset/Dev/temp/gnlkiller/tests/simple", O_RDONLY);
+	int fd = open("/tmp/gnlkiller/tests/simple", O_RDONLY);
 	while (((res = get_next_line(fd,&line)) == 1))
 	{
 		printf("%i. - |%s|\n", res, line);
@@ -16,7 +16,8 @@ int main (void)
 	}
 	printf("%i. - |%s|\n", res, line);
 	free(line);
-    /*while (1 == 1)
-    {}*/
+    while (1 == 1)
+    {
+	}
 	return (0);
 }

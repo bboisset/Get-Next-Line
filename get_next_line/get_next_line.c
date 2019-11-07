@@ -41,9 +41,10 @@ int    store_rest(char *temp, char **rest)
             j++;
 			if (j > 0)
 			{
-				if (!(*rest = malloc((temp_len - i) * sizeof(char))))
-					return (0);
+                free(*rest);
 				*rest = (ft_substr(temp, i, temp_len));
+                if (!rest)
+                    return (0);
                 return (1);
 			}
 		}

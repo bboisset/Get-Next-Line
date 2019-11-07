@@ -12,6 +12,7 @@
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
+# define BUFFER_SIZE 32
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -22,7 +23,7 @@ int             read_line(int const fd, char **line, char **rest);
 int				get_next_line(int const fd, char **line);
 
 int				ft_strlen(const char *s);
-char			*ft_strjoin(char const *s1, char const *s2);
+char			*ft_strjoin(char *s1, char const *s2);
 char            *ft_substr(char const *s, size_t start, size_t len);
 char			*ft_strcpy(char *dst, const char *src);
 char			*ft_strdup(const char *s1);
