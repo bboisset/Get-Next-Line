@@ -6,13 +6,13 @@
 /*   By: bboisset <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 18:08:04 by bboisset          #+#    #+#             */
-/*   Updated: 2019/10/31 21:11:24 by bboisset         ###   ########.fr       */
+/*   Updated: 2019/11/07 19:34:56 by bboisset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int			ft_strlen(const char *s)
+int		ft_strlen(const char *s)
 {
 	int	i;
 
@@ -24,7 +24,7 @@ int			ft_strlen(const char *s)
 	return (i);
 }
 
-char		*ft_strjoin(char *s1, char const *s2)
+char	*ft_strjoin(char *s1, char const *s2)
 {
 	char	*new_str;
 	int		i;
@@ -43,11 +43,11 @@ char		*ft_strjoin(char *s1, char const *s2)
 		while (s2[j] != '\0')
 			new_str[i++] = s2[j++];
 	new_str[i] = '\0';
-    free(s1);
+	free(s1);
 	return (new_str);
 }
 
-char		*ft_substr(char const *s, size_t start, size_t len)
+char	*ft_substr(char const *s, size_t start, size_t len)
 {
 	char	*str2;
 	size_t	i;
@@ -74,19 +74,19 @@ char	*ft_strcpy(char *dst, const char *src)
 	size_t i;
 
 	i = 0;
-    if (src)
-    {
-        while (src[i])
-        {
-            dst[i] = src[i];
-            i++;
-        }
-    }
+	if (src)
+	{
+		while (src[i])
+		{
+			dst[i] = src[i];
+			i++;
+		}
+	}
 	dst[i] = '\0';
 	return (dst);
 }
 
-char		*ft_strdup(const char *s1)
+char	*ft_strdup(const char *s1)
 {
 	size_t	s1_len;
 	char	*dest;
